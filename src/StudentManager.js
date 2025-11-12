@@ -1,110 +1,126 @@
-/**
- * Class StudentManager
- * Mengelola koleksi siswa dan operasi-operasi terkait
- * 
- * TODO: Implementasikan class StudentManager dengan:
- * - Constructor untuk inisialisasi array students
- * - Method addStudent(student) untuk menambah siswa
- * - Method removeStudent(id) untuk menghapus siswa
- * - Method findStudent(id) untuk mencari siswa
- * - Method updateStudent(id, data) untuk update data siswa
- * - Method getAllStudents() untuk mendapatkan semua siswa
- * - Method getTopStudents(n) untuk mendapatkan top n siswa
- * - Method displayAllStudents() untuk menampilkan semua siswa
- */
+import Student from './Student.js';
 
 class StudentManager {
-  // TODO: Implementasikan constructor
-  // Properti yang dibutuhkan:
-  // - students: Array untuk menyimpan semua siswa
-  
   constructor() {
-    // Implementasi constructor di sini
+    // Gunakan Map agar ID unik dan pencarian cepat
+    this.students = new Map();
   }
 
   /**
    * Menambah siswa baru ke dalam sistem
    * @param {Student} student - Object Student yang akan ditambahkan
-   * @returns {boolean} true jika berhasil, false jika ID sudah ada
-   * TODO: Validasi bahwa ID belum digunakan
    */
   addStudent(student) {
-    // Implementasi method di sini
+    const id = student.getId();
+    if (this.students.has(id)) {
+      throw new Error(`Siswa dengan ID ${id} sudah ada.`);
+    }
+    this.students.set(id, student);
   }
 
   /**
    * Menghapus siswa berdasarkan ID
    * @param {string} id - ID siswa yang akan dihapus
-   * @returns {boolean} true jika berhasil, false jika tidak ditemukan
-   * TODO: Cari dan hapus siswa dari array
+   * @returns {boolean} true jika berhasil
    */
   removeStudent(id) {
-    // Implementasi method di sini
+    const key = String(id).trim();
+    if (!this.students.has(key)) {
+      throw new Error(`Siswa dengan ID ${key} tidak ditemukan.`);
+    }
+    this.students.delete(key);
+    return true;
   }
 
   /**
    * Mencari siswa berdasarkan ID
    * @param {string} id - ID siswa yang dicari
-   * @returns {Student|null} Object Student jika ditemukan, null jika tidak
-   * TODO: Gunakan method array untuk mencari siswa
+   * @returns {Student}
    */
   findStudent(id) {
-    // Implementasi method di sini
+    const key = String(id).trim();
+    const st = this.students.get(key);
+    if (!st) {
+      throw new Error(`Siswa dengan ID ${key} tidak ditemukan.`);
+    }
+    return st;
   }
 
   /**
    * Update data siswa
-   * @param {string} id - ID siswa yang akan diupdate
+   * @param {string} id
    * @param {object} data - Data baru (name, class, dll)
-   * @returns {boolean} true jika berhasil, false jika tidak ditemukan
-   * TODO: Cari siswa dan update propertinya
    */
   updateStudent(id, data) {
-    // Implementasi method di sini
+    const st = this.findStudent(id);
+    if (data.name !== undefined && data.name.trim()) {
+      st.setName(data.name);
+    }
+    if (data.class !== undefined && data.class.trim()) {
+      st.setClass(data.class);
+    }
+    if (data.grades && typeof data.grades === 'object') {
+      for (const [subj, score] of Object.entries(data.grades)) {
+        st.addGrade(subj, score);
+      }
+    }
+    return st;
   }
 
   /**
    * Mendapatkan semua siswa
-   * @returns {Array} Array berisi semua siswa
+   * @returns {Array<Student>}
    */
   getAllStudents() {
-    // Implementasi method di sini
+    return Array.from(this.students.values());
   }
 
   /**
    * Mendapatkan top n siswa berdasarkan rata-rata nilai
-   * @param {number} n - Jumlah siswa yang ingin didapatkan
-   * @returns {Array} Array berisi top n siswa
-   * TODO: Sort siswa berdasarkan rata-rata (descending) dan ambil n teratas
+   * @param {number} n
+   * @returns {Array<Student>}
    */
   getTopStudents(n) {
-    // Implementasi method di sini
+    return this.getAllStudents()
+      .sort((a, b) => b.getAverage() - a.getAverage())
+      .slice(0, n);
   }
 
   /**
    * Menampilkan informasi semua siswa
-   * TODO: Loop semua siswa dan panggil displayInfo() untuk masing-masing
+   * @returns {string}
    */
   displayAllStudents() {
-    // Implementasi method di sini
+    const list = this.getAllStudents();
+    if (list.length === 0) return 'Belum ada data siswa.';
+    return list
+      .map(
+        (s) => s.displayInfo() + '\n------------------------'
+      )
+      .join('\n');
   }
 
   /**
    * BONUS: Mendapatkan siswa berdasarkan kelas
-   * @param {string} className - Nama kelas
-   * @returns {Array} Array siswa dalam kelas tersebut
    */
   getStudentsByClass(className) {
-    // Implementasi method di sini (BONUS)
+    return this.getAllStudents().filter(
+      (s) => s.getClass() === className
+    );
   }
 
   /**
-   * BONUS: Mendapatkan statistik kelas
-   * @param {string} className - Nama kelas
-   * @returns {object} Object berisi statistik (jumlah siswa, rata-rata kelas, dll)
+   * BONUS: Statistik kelas
    */
   getClassStatistics(className) {
-    // Implementasi method di sini (BONUS)
+    const list = this.getStudentsByClass(className);
+    if (list.length === 0) return { jumlahSiswa: 0, rataRataKelas: 0 };
+    const avg =
+      list.reduce((acc, s) => acc + s.getAverage(), 0) / list.length;
+    return {
+      jumlahSiswa: list.length,
+      rataRataKelas: Number(avg.toFixed(2)),
+    };
   }
 }
 
