@@ -1,96 +1,71 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/mN9h8nSd)
-# Challenge 4: Sistem Manajemen Nilai Siswa
+Sistem Manajemen Nilai Siswa (Challenge 4 – WPH Bootcamp)
 
-## Deskripsi
-Buatlah aplikasi CLI (Command Line Interface) untuk sistem manajemen nilai siswa menggunakan JavaScript dengan pendekatan Object-Oriented Programming (OOP).
+Aplikasi CLI (Command Line Interface) berbasis JavaScript OOP untuk mengelola data siswa, nilai mata pelajaran, serta status kelulusan.
+Didesain dengan pendekatan Object-Oriented Programming dan memiliki fitur CRUD lengkap serta data persistence (file JSON) agar data tetap tersimpan setelah program ditutup.
 
-## Tujuan Pembelajaran
-- Memahami konsep OOP dalam JavaScript (Class, Object, Inheritance, Encapsulation)
-- Mengimplementasikan CRUD operations
-- Mengelola data menggunakan array dan object
-- Membuat interactive CLI application
-- Menerapkan error handling
+Fitur Utama
+No	Fitur	Deskripsi
+1	Tambah Siswa Baru	Input ID, nama, kelas → buat data baru
+2	Lihat Semua Siswa	Menampilkan daftar seluruh siswa beserta nilai dan status
+3	Cari Siswa (by ID)	Menampilkan informasi satu siswa berdasarkan ID unik
+4	Update Data Siswa	Mengubah nama atau kelas siswa
+5	Hapus Siswa	Menghapus data berdasarkan ID
+6	Tambah Nilai Siswa	Menambahkan mata pelajaran dan nilai (0 – 100)
+7	Lihat Top 3 Siswa	Menampilkan 3 siswa dengan rata-rata tertinggi
+8	Keluar	Mengakhiri program
 
-## Fitur yang Harus Diimplementasikan
+Fitur Bonus: Persistence (JSON)
 
-### 1. Class Student
-Buat class `Student` dengan properti:
-- `id` (string/number) - ID unik siswa
-- `name` (string) - Nama siswa
-- `class` (string) - Kelas siswa (misal: "10A", "11B")
-- `grades` (object) - Object berisi nilai mata pelajaran
+Setiap perubahan data (tambah, update, hapus, tambah nilai) disimpan otomatis ke file:
 
-Method yang harus ada:
-- `addGrade(subject, score)` - Menambah nilai mata pelajaran
-- `getAverage()` - Menghitung rata-rata nilai
-- `getGradeStatus()` - Menentukan status (Lulus/Tidak Lulus)
-- `displayInfo()` - Menampilkan informasi siswa
+students.json
 
-### 2. Class StudentManager
-Buat class `StudentManager` untuk mengelola data siswa:
 
-Method yang harus ada:
-- `addStudent(student)` - Menambah siswa baru
-- `removeStudent(id)` - Menghapus siswa berdasarkan ID
-- `findStudent(id)` - Mencari siswa berdasarkan ID
-- `updateStudent(id, data)` - Update data siswa
-- `getAllStudents()` - Mendapatkan semua data siswa
-- `getTopStudents(n)` - Mendapatkan n siswa dengan rata-rata tertinggi
-- `displayAllStudents()` - Menampilkan semua siswa
+Ketika program dijalankan kembali, seluruh data akan otomatis dimuat dari file tersebut.
+Contoh isi file JSON:
 
-### 3. CLI Interface
-Implementasikan menu interaktif dengan pilihan:
-1. Tambah Siswa Baru
-2. Lihat Semua Siswa
-3. Cari Siswa (by ID)
-4. Update Data Siswa
-5. Hapus Siswa
-6. Tambah Nilai Siswa
-7. Lihat Top 3 Siswa
-8. Keluar
+[
+  {
+    "id": "002",
+    "name": "Yulia",
+    "class": "10C",
+    "grades": {
+      "Matematika": 90,
+      "IPA": 85
+    }
+  }
+]
 
-## Kriteria Penilaian
+Struktur Project
+challenge-4-Purwita165-1/
+│
+├── index.js                   # Main CLI interface
+├── package.json               # Project config & dependencies
+├── students.json              # Data persistence file
+└── src/
+    ├── Student.js             # Class Student (data & logic nilai)
+    ├── StudentManager.js      # Class StudentManager (CRUD)
+    └── storage.js             # Modul simpan/muat file JSON
 
-### OOP Implementation (40%)
-- Penggunaan class dengan benar
-- Encapsulation (private/public properties)
-- Method yang sesuai dengan tanggung jawab class
-- Constructor yang tepat
+Cara Menjalankan
 
-### Functionality (40%)
-- Semua fitur CRUD berfungsi dengan baik
-- Perhitungan rata-rata dan status benar
-- Pencarian dan sorting berfungsi
-- Data persistence (bonus jika menggunakan file)
+1. Install dependency
 
-### Code Quality (20%)
-- Clean code dan readable
-- Error handling yang baik
-- Validasi input
-- Dokumentasi/komentar yang jelas
+npm install
 
-## Ketentuan Teknis
 
-1. **Struktur Nilai:**
-   - Setiap siswa memiliki nilai untuk berbagai mata pelajaran
-   - Nilai harus dalam rentang 0-100
-   - Rata-rata >= 75 = Lulus, < 75 = Tidak Lulus
+2. Jalankan program
 
-2. **Validasi:**
-   - ID siswa harus unik
-   - Nama tidak boleh kosong
-   - Nilai harus berupa angka 0-100
-   - Input harus divalidasi sebelum diproses
+node index.js
 
-3. **Error Handling:**
-   - Tangani error saat siswa tidak ditemukan
-   - Tangani input yang tidak valid
-   - Berikan pesan error yang informatif
 
-## Contoh Output
+(atau npm start jika sudah ditambahkan ke scripts)
 
-```
-=== SISTEM MANAJEMEN NILAI SISWA ===
+3. Interaksi melalui terminal
+
+=================================
+SISTEM MANAJEMEN NILAI SISWA
+=================================
 1. Tambah Siswa Baru
 2. Lihat Semua Siswa
 3. Cari Siswa
@@ -99,61 +74,51 @@ Implementasikan menu interaktif dengan pilihan:
 6. Tambah Nilai Siswa
 7. Lihat Top 3 Siswa
 8. Keluar
-Pilih menu (1-8): 2
+=================================
 
-=== DAFTAR SISWA ===
-ID: S001
-Nama: Budi Santoso
-Kelas: 10A
+Contoh Output
+--- Tambah Siswa Baru ---
+Masukkan ID Siswa: 001
+Masukkan Nama Siswa: Jono
+Masukkan Kelas (contoh: 10A): 10C
+--> Siswa berhasil ditambahkan!
+
+--- Tambah Nilai Siswa ---
+Masukkan ID Siswa: 001
+Mata Pelajaran: Matematika
+Nilai (0-100): 90
+--> Nilai berhasil ditambahkan!
+
+--- Daftar Semua Siswa ---
+ID: 001
+Nama: Jono
+Kelas: 10C
 Mata Pelajaran:
-  - Matematika: 85
-  - Bahasa Indonesia: 90
-  - IPA: 88
-Rata-rata: 87.67
+  - Matematika: 90
+Rata-rata: 90
 Status: Lulus
 ------------------------
-```
 
-## Cara Mengerjakan
+Konsep OOP yang Diterapkan
+Konsep	Implementasi
+Class	Student, StudentManager
+Encapsulation	Akses data siswa melalui method, bukan langsung
+Inheritance	— (tidak diperlukan pada skop ini)
+Method Responsibility	Setiap class punya tanggung jawab terpisah
+Error Handling	Validasi input dan penanganan error informativ
 
-1. Clone repository ini
-2. Implementasikan class-class yang diperlukan di folder `src/`
-3. Implementasikan CLI di file `index.js`
-4. Test aplikasi Anda dengan menjalankan `node index.js`
-5. Pastikan semua fitur berfungsi dengan baik
+Dependencies
 
-## Bonus Points
+readline-sync → Input interaktif di terminal
 
-- Implementasi data persistence menggunakan JSON file
-- Tambah fitur export laporan ke file
-- Implementasi filtering (misal: filter by class)
-- Tambah fitur statistik kelas
-- UI yang lebih menarik dengan colors (chalk/colors library)
+fs (core module) → Membaca & menulis file JSON
 
-## Submission
+Kontributor
 
-Pastikan repository Anda berisi:
-- Source code lengkap
-- README.md dengan cara menjalankan
-- Contoh data atau screenshot hasil running
-- Dokumentasi kode yang jelas
+Purwita Musaffa
+WPH Bootcamp – Challenge 4: Sistem Manajemen Nilai Siswa
 
-## Tips
+🏁 Status Proyek
 
-- Mulai dengan membuat class Student terlebih dahulu
-- Test setiap method sebelum melanjutkan
-- Gunakan readline-sync atau inquirer untuk input CLI
-- Pisahkan logic dan UI untuk code yang lebih clean
-- Commit secara berkala dengan pesan yang jelas
-
-## Resources
-
-- [MDN - Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
-- [Node.js readline-sync](https://www.npmjs.com/package/readline-sync)
-- [JavaScript OOP Guide](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_programming)
-
----
-**Deadline:** [Tentukan deadline sesuai kebutuhan]
-
-**Happy Coding!**
-# t-challenge-4-rep
+✅ Selesai 100%
+✅ Fitur bonus (persistence JSON) diimplementasikan

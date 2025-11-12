@@ -1,12 +1,13 @@
 {
-  "name": "student-grade-management-system",
+  "name": "Challenge-4-purwita165-1",
   "version": "1.0.0",
-  "description": "Sistem Manajemen Nilai Siswa - Challenge 4",
+  "description": "CLI Sistem Manajemen Nilai Siswa (OOP, CRUD, Persistence JSON)",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "node --check . || true"
   },
   "keywords": [
     "student",
@@ -14,9 +15,11 @@
     "cli",
     "oop"
   ],
-  "author": "",
+  "author": "Purwita Musaffa",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.23",
     "readline-sync": "^1.4.10"
   }
 }
